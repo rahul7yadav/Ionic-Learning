@@ -1,0 +1,29 @@
+<!--
+  Generated template for the ListsubitemPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+	<button ion-button menuToggle>
+    	<ion-icon name="menu"></ion-icon>
+   	</button>
+	<ion-navbar>
+		<ion-title>List Sub Items</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ion-list>
+    <button ion-item *ngFor="let item of items">
+      <ion-icon [name]="item.icon" item-start></ion-icon>
+      {{item.title}}
+      <div class="item-note" item-end>
+        {{item.note}}
+      </div>
+    </button>
+	</ion-list>
+	
+</ion-content>
