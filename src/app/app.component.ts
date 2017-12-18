@@ -18,18 +18,27 @@ import { ListPage } from '../pages/list/list';
 export class MyApp {
 
   @ViewChild(Nav) nav: Nav; 
-  rootPage:any = HomePage;
+  rootPage:any = LoginPage;
   menus: string[];
   pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, statusbar: StatusBar, splashscreen: SplashScreen, app: App, menu: MenuController) {
     this.initializeApp(statusbar,splashscreen);
-    this.pages = [
+    //console.log('component ____');
+    //console.log(localStorage.getItem("token"));
+    if(localStorage.getItem("token") != null) {
+      this.pages = [
             {title: 'Home', component: HomePage},
-            {title: 'Sign up', component: SignupPage},
+            {title: 'List', component: ListPage},
+            {title: 'Logout', component: null}
+        ];
+    }
+    else{
+      this.pages = [
             {title: 'Login', component: LoginPage},
             {title: 'List', component: ListPage}
         ];
+    }    
     menu.enable(false);    
 
   }
@@ -42,8 +51,19 @@ export class MyApp {
   }
 
   openPage(page){
-    this.nav.setRoot(page.component);
+    if(page.component != null)
+    {
+      this.nav.setRoot(page.component);  
+    }
+    else
+    {
+      localStorage.clear();
+      this.nav.setRoot(LoginPage);
+    }
+    
   }
+
+
 
 
 }

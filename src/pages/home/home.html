@@ -3,23 +3,18 @@
       <ion-icon name="menu"></ion-icon>
   </button>
   <ion-navbar>
-    
-    <ion-title>Hello Ionic</ion-title>
+    <button ion-button clear (click)="logout()">
+      <ion-icon name="log-out"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-
-  <h3>Welcome to your first Ionic app!</h3>
-
-  <p>
-    This starter project is our way of helping you get a functional app running in record time.
-  </p>
-  <p>
-    Follow along on the tutorial section of the Ionic docs!
-  </p>
-  <p>
-    <button ion-button color="primary" menuToggle>Toggle Menu</button>
-  </p>
-
+<ion-content>
+  <ion-list inset>
+    <ion-item *ngFor="let user of users">
+      <h2>{{user.name}}</h2>
+      <p>{{user.email}}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

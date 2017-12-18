@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 
 import { ListsubitemPage } from '../listsubitem/listsubitem';
-
+import {LoginPage} from '../login/login';
 /**
  * Generated class for the ListPage page.
  *
@@ -27,43 +27,32 @@ export class ListPage {
 
   		// If we navigated to this page, we will have an item available as a nav param
 	    //this.selectedItem = navParams.get('item');
+	    if(!localStorage.getItem("token")) {
+	      navCtrl.setRoot(LoginPage);
+	    }
+	    else
+	    {	
+		    // Let's populate this page with some filler content for funzies
+		    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
+		    'american-football', 'boat', 'bluetooth', 'build'];
 
-	    // Let's populate this page with some filler content for funzies
-	    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-	    'american-football', 'boat', 'bluetooth', 'build'];
-
-	    // Try to make Dynamic List
-	    this.items = [];
-	    this.lists = this.httpClient.get('http://localhost/ionic_backend/items.php');
-    	this.lists.subscribe(data => {
-      		console.log('my data: ', data);
-      		data.forEach( (value, key, index) => {
-      			this.items.push({
-      				id: value.id,
-			        title: value.item_name,
-			        note: value.item_name+' #' + value.id,
-			        icon: value.icon
-			      });
-				//console.log("This is the value", value);
-				//console.log(value['item_name']);
-				//console.log(value.item_name);
-				//console.log("from the key", key);
-				//console.log("Index is", index);
-			})
-    	});
-
+		    // Try to make Dynamic List
+		    this.items = [];
+		    this.lists = this.httpClient.get('http://localhost/ionic_backend/items.php');
+	    	this.lists.subscribe(data => {
+	      		console.log('my data: ', data);
+	      		data.forEach( (value, key, index) => {
+	      			this.items.push({
+	      				id: value.id,
+				        title: value.item_name,
+				        note: value.item_name+' #' + value.id,
+				        icon: value.icon
+				      });
+					
+				})
+	    	});
+	    }	
     	
-
-
-
-	    //this.items = [];
-	    //for (let i = 0; i < 10; i++) {
-	    //  this.items.push({
-	    //    title: 'Item ' + i,
-	    //    note: 'This is item #' + i,
-	    //    icon: this.icons[i]
-	    //  });
-	    //}
   	
   	}
 

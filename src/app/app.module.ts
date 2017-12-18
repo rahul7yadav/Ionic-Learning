@@ -14,6 +14,8 @@ import { ListsubitemPage } from '../pages/listsubitem/listsubitem';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { RestProvider } from '../providers/rest/rest';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { HttpModule } from '@angular/http';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthServiceProvider,
+    RestProvider
   ]
 })
 export class AppModule {}
