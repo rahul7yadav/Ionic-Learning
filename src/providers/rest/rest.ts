@@ -14,17 +14,19 @@ export class RestProvider {
     console.log('Hello RestProvider Provider');
   }
 
-  	loginUrl = 'http://localhost/ionic_backend/login.php';
-  	getUrl = 'https://jsonplaceholder.typicode.com';
-  	regUrl = 'http://localhost/ionic_backend/register.php';
-  	logoutUrl = 'http://localhost/ionic_backend/logout.php';
-  	
+  	// loginUrl = 'http://localhost/ionic_backend/login.php';
+  	// getUrl = 'https://jsonplaceholder.typicode.com';
+  	// regUrl = 'http://localhost/ionic_backend/register.php';
+  	// logoutUrl = 'http://localhost/ionic_backend/logout.php';
+  	ApiUrl = 'http://localhost/passport-laravel/public/api/';
+  	MainUrl = 'http://localhost/passport-laravel/public/';	
+
   	login(credentials) {
 	    return new Promise((resolve, reject) => {
 	        let headers = new HttpHeaders();
 	        headers.append('Content-Type', 'application/json');
 
-	        this.http.post(this.loginUrl, JSON.stringify(credentials), {headers: headers})
+	        this.http.post(this.ApiUrl+'login', credentials, {headers: headers})
 	          .subscribe(res => {
 	            resolve(res);
 	            console.log(res);
@@ -36,9 +38,24 @@ export class RestProvider {
 
   	getUsers() {
 	  return new Promise(resolve => {
-	    this.http.get(this.getUrl+'/users').subscribe(data => {
+	  	let headers = new HttpHeaders({
+	  		'Content-Type': 'application/json',
+	  		'Accept': 'application/json',
+	  		'Authorization': 'Bearer '+localStorage.getItem('token'),
+	  		'X-Auth-Token': localStorage.getItem('token')
+	  	});
+        //headers.append();
+        //console.log('token = '+localStorage.getItem('token'));
+        //headers.append();
+        //headers.append();
+        console.log('headers');
+        console.log(headers);
+	    this.http.post(this.ApiUrl+'get-details?json=true',localStorage.getItem('token'),{headers: headers}).subscribe(data => {
+	      //console.log('resolve');
+	      //console.log(data.success);
 	      resolve(data);
 	    }, err => {
+	      //console.log('err');
 	      console.log(err);
 	    });
 	  });
@@ -46,10 +63,16 @@ export class RestProvider {
 
 	addUser(data) {
 	  return new Promise((resolve, reject) => {
-	    this.http.post(this.regUrl, JSON.stringify(data))
+	  	let headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+	    this.http.post(this.ApiUrl+'register', data, {headers: headers})
 	      .subscribe(res => {
+	      	console.log('res');
+	      	console.log(res);
 	        resolve(res);
 	      }, (err) => {
+	      	console.log('err');
+	      	console.log(err);
 	        reject(err);
 	      });
 	  });
@@ -57,12 +80,13 @@ export class RestProvider {
 
 	logout(){
 	    return new Promise((resolve, reject) => {
-	        let headers = new HttpHeaders();
-	        console.log('get Token');
-	        console.log(localStorage.getItem('token'));
-	        headers.append('X-Auth-Token', localStorage.getItem('token'));
-
-	        this.http.post(this.logoutUrl, {}, {headers: headers})
+	        let headers = new HttpHeaders({
+		  		'Content-Type': 'application/json',
+		  		'Accept': 'application/json',
+		  		'Authorization': 'Bearer '+localStorage.getItem('token'),
+		  		'X-Auth-Token': localStorage.getItem('token')
+		  	});
+	        this.http.post(this.ApiUrl+'logout', localStorage.getItem('token'), {headers: headers})
 	          .subscribe(res => {
 	          	console.log('logout res');
 	          	console.log(res);
@@ -70,6 +94,7 @@ export class RestProvider {
 	          	resolve(res);
 
 	          }, (err) => {
+	          	console.log('logout err');
 	            reject(err);
 	          });
 	    });

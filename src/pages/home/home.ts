@@ -9,7 +9,6 @@ import {LoginPage} from '../login/login';
 export class HomePage {
 	loading: any;
 	isLoggedIn: boolean = false;
-
   constructor(public app: App, public navCtrl: NavController, public restProvider: RestProvider, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
   	
     if(localStorage.getItem("token")) {
@@ -29,8 +28,11 @@ export class HomePage {
   getUsers() {
     this.restProvider.getUsers()
     .then(data => {
+      console.log('this.users');
+      console.log(data);
+      console.log(data);
       this.users = data;
-      console.log(this.users);
+      
     });
   }
 
@@ -38,6 +40,7 @@ export class HomePage {
     this.showLoader();
     this.restProvider.logout().then((result) => {
       this.loading.dismiss();
+      this.presentToast(result);
       let nav = this.app.getRootNav();
       nav.setRoot(LoginPage);
     }, (err) => {
@@ -57,7 +60,7 @@ export class HomePage {
   presentToast(msg) {
     let toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000,
+      duration: 5000,
       position: 'bottom',
       dismissOnPageChange: true
     });
@@ -71,3 +74,8 @@ export class HomePage {
 
 
 }
+// export class ObjNgFor implements PipeTransform {
+//     transform(value: any, args: any[] = null): any {
+//         return Object.keys(value).map(key => Object.assign({ key }, value[key]));
+//     }
+// }

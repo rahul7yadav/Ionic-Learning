@@ -22,6 +22,11 @@ export class LoginPage {
 	data: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider, public loadingCtrl: LoadingController, private toastCtrl: ToastController) {
+  
+    if(localStorage.getItem("token")) {
+      navCtrl.setRoot(HomePage);
+    }
+    
   }
 
   doLogin() {
@@ -30,13 +35,30 @@ export class LoginPage {
       this.loading.dismiss();
       this.data = result;
       console.log('get data');
-      console.log(this.data[0].id);
-      localStorage.setItem('token', this.data[0].id);
+      console.log(this.data['success']['token']);
+      localStorage.setItem('token', this.data['success']['token']);
       console.log(localStorage.getItem('token'));
       this.navCtrl.setRoot(HomePage);
     }, (err) => {
       this.loading.dismiss();
-      this.presentToast(err);
+      console.log('error=');
+      console.log(err.error['error']);
+      if (typeof err.error['error'] === "string") {
+          console.log('string hai');
+          this.presentToast(err.error['error']);
+      }
+      else
+      {
+        //console.log(err.error['error'].size());
+        var err_msg = '<ul>';
+          for (var x in err.error['error']) {
+            console.log(x);
+            console.log(err.error['error'][x][0]);
+            err_msg += '<li>'+err.error['error'][x][0]+'</li>';
+        }
+        err_msg += '</ul>';
+        this.presentToast(err_msg);
+      }  
     });
   }
 

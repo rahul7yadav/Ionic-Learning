@@ -28,7 +28,16 @@
       <ion-label>Password</ion-label>
       <ion-input type="password" [(ngModel)]="user.password" name="password"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>Confirm Password</ion-label>
+      <ion-input type="password" [(ngModel)]="user.c_password" name="c_password"></ion-input>
+    </ion-item>
     
     <button ion-button type="submit" block>Sign Up</button>
   </form>
+
+  <button ion-button block clear (click)="login()">
+    Already have an account? Please login
+  </button>
+
 </ion-content>

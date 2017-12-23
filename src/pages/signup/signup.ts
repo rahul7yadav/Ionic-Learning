@@ -17,7 +17,7 @@ import {LoginPage} from '../login/login';
 })
 export class SignupPage {
 
-	  user = { name: '', email: '', password: ''};
+	  user = { name: '', email: '', password: '', c_password: ''};
 	  createSuccess = false;
 
 	  constructor(public navCtrl: NavController, public navParams: NavParams, public restProvider: RestProvider, public alertCtrl: AlertController) {
@@ -34,9 +34,21 @@ export class SignupPage {
 		        this.showPopup("Error", "Problem creating account.");
 		    }
 	  	}, (err) => {
-	    	console.log(err);
-	    	this.showPopup("Error", err);
+	  		console.log('signup');
+	  		console.log(err.error);
+	  		var err_msg = '<ul>';
+	  		for (var x in err.error['error']) {
+	  			console.log(x);
+	  			console.log(err.error['error'][x][0]);
+			    err_msg += '<li>'+err.error['error'][x][0]+'</li>';
+			}
+			err_msg += '</ul>';
+	    	this.showPopup("Error", err_msg);
 	  	});
+	}
+
+	login() {
+	    this.navCtrl.push(LoginPage);
 	}
 
 	showPopup(title, text) {
