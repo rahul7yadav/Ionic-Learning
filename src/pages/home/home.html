@@ -1,20 +1,94 @@
 <ion-header>
-  <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-  </button>
+  
   <ion-navbar>
-    <button ion-button clear (click)="logout()">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <button ion-button right clear (click)="logout()">
       <ion-icon name="log-out"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Dashboard</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list inset>
-    <ion-item>
-      <h2>{{users?.success?.name}}</h2>
-      <p>{{users?.success?.email}}</p>
-    </ion-item>
-  </ion-list>
+  <ion-card>
+    <ion-card-header>
+      Visits Today
+    </ion-card-header>
+    <ion-card-content>
+      {{dashboard_data?.todayvisits}}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Weekly Visits
+    </ion-card-header>
+    <ion-card-content>
+      {{dashboard_data?.weeklyvisits}}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Monthly Visits
+    </ion-card-header>
+    <ion-card-content>
+      {{dashboard_data?.monthlyvisits}}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Active Reps
+    </ion-card-header>
+    <ion-card-content>
+      {{dashboard_data?.activereps.length}}
+    </ion-card-content>
+  </ion-card>
+  
+  <div class="unique_global_table">
+    <table class="table table-striped">
+      <tr>
+        <td colspan="4"><h1>Unique Rep Visits</h1></td>
+        <td colspan="3"><h1>Global Rep Visits</h1></td>
+      </tr>
+      <tr>
+        <th>Today</th>
+        <th>Current Week</th>
+        <th>Current Month</th>
+        <th>Rep's Name</th>
+        <th>Today</th>
+        <th>Current Week</th>
+        <th>Current Month</th>
+      </tr>
+  
+      <tr *ngFor="let uv of dashboard_data?.uservisits">
+        <td><a class="various fancybox.ajax" (click)="getStores('uniquetoday',uv?.id)">{{uv?.unique_today}}</a></td>
+        <td><a class="various fancybox.ajax" (click)="getStores('uniqueweek',uv?.id)">{{uv?.unique_week}}</a></td>
+        <td><a class="various fancybox.ajax" (click)="getStores('uniquemonth',uv?.id)">{{uv?.unique_month}}</a></td>
+        <td>{{uv?.name}}</td>
+        <td><a class="various fancybox.ajax" (click)="getStores('globaltoday',uv?.id)">{{uv?.global_today}}</a></td>
+        <td><a class="various fancybox.ajax" (click)="getStores('globalweek',uv?.id)">{{uv?.global_week}}</a></td>
+        <td><a class="various fancybox.ajax" (click)="getStores('globalmonth',uv?.id)">{{uv?.global_month}}</a></td>
+      </tr>
+    
+    </table>
+  </div>
+  <h4>Choose occasions</h4>
+  <form (submit)="chooseOccasion()">
+    <div *ngFor="let o of occasions">
+      
+        <ion-item >
+            <ion-label>{{o.occasion_name}}</ion-label>
+            <ion-checkbox checked="{{o.current_occasion == 1 ? true:false}}" name="occasion[]"  [(ngModel)]="o.id" ></ion-checkbox>
+        </ion-item>
+      
+    </div>
+    <!-- <ion-checkbox checked="false" name="occasion[]" *ngIf="o.current_occasion == false;" [(ngModel)]="o.id"></ion-checkbox> -->
+    <button ion-button block type="submit">
+      Save
+    </button>
+  </form>
 </ion-content>

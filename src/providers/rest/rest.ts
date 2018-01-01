@@ -18,8 +18,8 @@ export class RestProvider {
   	// getUrl = 'https://jsonplaceholder.typicode.com';
   	// regUrl = 'http://localhost/ionic_backend/register.php';
   	// logoutUrl = 'http://localhost/ionic_backend/logout.php';
-  	ApiUrl = 'http://localhost/passport-laravel/public/api/';
-  	MainUrl = 'http://localhost/passport-laravel/public/';	
+  	ApiUrl = 'http://localhost/passport-laravel/trade/api/';
+  	//MainUrl = 'http://localhost/passport-laravel/trade/';	
 
   	login(credentials) {
 	    return new Promise((resolve, reject) => {
@@ -51,14 +51,39 @@ export class RestProvider {
         console.log('headers');
         console.log(headers);
 	    this.http.post(this.ApiUrl+'get-details?json=true',localStorage.getItem('token'),{headers: headers}).subscribe(data => {
-	      //console.log('resolve');
-	      //console.log(data.success);
+	      console.log('resolve');
+	      console.log(data);
 	      resolve(data);
 	    }, err => {
-	      //console.log('err');
+	      console.log('err');
 	      console.log(err);
 	    });
 	  });
+	}
+
+	Dashboard(){
+		return new Promise(resolve => {
+		  	let headers = new HttpHeaders({
+		  		'Content-Type': 'application/json',
+		  		'Accept': 'application/json',
+		  		'Authorization': 'Bearer '+localStorage.getItem('token'),
+		  		'X-Auth-Token': localStorage.getItem('token')
+		  	});
+	        //headers.append();
+	        //console.log('token = '+localStorage.getItem('token'));
+	        //headers.append();
+	        //headers.append();
+	        // console.log('headers');
+	        // console.log(headers);
+		    this.http.get(this.ApiUrl+'dashboard?json=true', {headers: headers}).subscribe(data => {
+		      // console.log('resolve');
+		      // console.log(data);
+		      resolve(data);
+		    }, err => {
+		      //console.log('err');
+		      console.log(err);
+		    });
+		});
 	}
 
 	addUser(data) {

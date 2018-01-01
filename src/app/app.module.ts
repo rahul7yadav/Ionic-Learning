@@ -11,6 +11,9 @@ import { SignupPage } from '../pages/signup/signup';
 import { LoginPage } from '../pages/login/login';
 import { ListPage } from '../pages/list/list';
 import { ListsubitemPage } from '../pages/listsubitem/listsubitem';
+import { SupervisorsPage } from '../pages/supervisors/supervisors';
+import {AddsupervisorPage} from '../pages/addsupervisor/addsupervisor';
+import {EditsupervisorPage} from '../pages/editsupervisor/editsupervisor';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -24,7 +27,10 @@ import { RestProvider } from '../providers/rest/rest';
     SignupPage,
     LoginPage,
     ListPage,
-    ListsubitemPage
+    ListsubitemPage,
+    SupervisorsPage,
+    AddsupervisorPage,
+    EditsupervisorPage
   ],
   imports: [
     BrowserModule,
@@ -38,7 +44,10 @@ import { RestProvider } from '../providers/rest/rest';
     SignupPage,
     LoginPage,
     ListPage,
-    ListsubitemPage
+    ListsubitemPage,
+    SupervisorsPage,
+    AddsupervisorPage,
+    EditsupervisorPage
   ],
   providers: [
     StatusBar,
